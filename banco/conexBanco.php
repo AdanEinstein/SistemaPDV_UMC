@@ -6,7 +6,8 @@ class bd{
     $user ="root",
     $pass="",
     $bd="crudphp",
-    $driver="mysql";
+    $driver="mysql",
+    $obj;
 
     private function conexao(){
         try{
