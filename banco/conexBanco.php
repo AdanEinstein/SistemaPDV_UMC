@@ -2,7 +2,6 @@
 
 class DAO
 {
-
     private $host = "localhost";
     private $user = "root";
     private $pass = "";
@@ -13,7 +12,7 @@ class DAO
     {
         try {
             $conexao = new PDO("{$this->driver}:host={$this->host};dbname={$this->db}", "{$this->user}", "{$this->pass}");
-
+            $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conexao;
         } catch (PDOException $e) {
 
@@ -39,21 +38,38 @@ class DAO
     {
         $stmt = $this->conexao()->prepare($sql);
         if (func_num_args() == 1) {
-            $stmt->execute();
+            return $stmt->execute();
         } elseif (func_num_args() == 2) {
-            foreach ($arrayParams as $chave => $valor) {
+            foreach ($arrayParams as $chave => &$valor) {
                 $stmt->bindParam($chave, $valor);
             }
-            $stmt->execute();
+            return $stmt->execute();
         } else {
             throw new \http\Exception\RuntimeException("Parâmetros inválidos!");
         }
     }
 
-    public function listData()
+    public function selectParamSQL($sql, $arrayParams)
     {
-        return $this->obj->fetchALL();
+        try {
+            $stmt = $this->conexao()->prepare($sql);
+            foreach ($arrayParams as $chave => &$valor) {
+                $stmt->bindParam($chave, $valor);
+            }
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+    }
+
+    public function selectAll($sql)
+    {
+        try {
+            return $this->conexao()->query($sql);
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
     }
 }
-
-?>
