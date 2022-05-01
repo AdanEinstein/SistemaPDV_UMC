@@ -37,17 +37,15 @@ class DAO
 
     function selectParam($sql, $arrayParams)
     {
-        $stmt = $this->conexao()->prepare($sql);
-        if (func_num_args() == 1) {
-            $stmt->execute();
-        } elseif (func_num_args() == 2) {
+        try {
+            $stmt = $this->conexao()->prepare($sql);
             foreach ($arrayParams as $chave => &$valor) {
                 $stmt->bindParam($chave, $valor);
             }
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
-        } else {
-            throw new \http\Exception\RuntimeException("Parâmetros inválidos!");
+        } catch (Exception $exception) {
+            throw new Exception($exception);
         }
     }
 

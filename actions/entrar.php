@@ -13,7 +13,7 @@ if (empty($login)) {
 } else {
     $sql = "SELECT * FROM usuarios WHERE login = :login AND senha = :senha";
     $conexao = new DAO();
-    $dados = $conexao->selectParamSQL($sql, [":login" => $login, ":senha" => $senha]);
+    $dados = $conexao->selectParam($sql, [":login" => $login, ":senha" => $senha]);
 
     if ($dados["login"] == $login and $dados["senha"] == $senha) {
         $usuario = array("login" => $dados['login'], "senha" => $dados['senha'], "perfil" => $dados['perfil']);
