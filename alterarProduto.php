@@ -8,7 +8,7 @@ if (isset($_GET['id'])){
     $sql = "SELECT * FROM produtos WHERE id = :id";
     $param = [":id" => $id];
     $conexao = new DAO();
-    $dados = $conexao->selectParamSQL($sql, $param);
+    $dados = $conexao->selectParam($sql, $param);
 }
 ?>
     <nav class="navbar navbar-expand-lg navbar-dark"
