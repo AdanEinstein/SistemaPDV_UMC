@@ -23,7 +23,7 @@ session_start();
                         <a href="cadastroProduto.php" class="nav-link">Cadastrar Produto</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Vender</a>
+                        <a href="venderProdutos.php" class="nav-link">Vender</a>
                     </li>
                 </ul>
             </div>
