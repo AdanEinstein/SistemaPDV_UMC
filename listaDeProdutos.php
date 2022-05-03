@@ -56,10 +56,10 @@ if (isset($_SESSION["resposta"])) {
         </thead>
         <tbody>
         <?php
-        $sql = "SELECT * FROM produtos";
+        $sql = "SELECT * FROM pdv_produtos";
         $conexao = new DAO();
         try {
-            $dados = $conexao->selectAll($sql);
+            $dados = $conexao->select($sql, null, true);
         } catch (Exception $e) {
             header("Location: home.php");
         }

@@ -3,7 +3,7 @@ session_start();
 require_once '../banco/conexBanco.php';
 $id = $_POST['id'];
 
-$sql = "DELETE FROM produtos WHERE id = :id";
+$sql = "DELETE FROM pdv_produtos WHERE id = :id";
 $params = [":id"=>$id];
 $conexao = new DAO();
 if ($conexao->executeSQL($sql, $params)) {

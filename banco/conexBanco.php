@@ -35,24 +35,20 @@ class DAO
         }
     }
 
-    function selectParam($sql, $arrayParams)
+    function select($sql, $arrayParams = null, $todos = false)
     {
         try {
-            $stmt = $this->conexao()->prepare($sql);
-            foreach ($arrayParams as $chave => &$valor) {
-                $stmt->bindParam($chave, $valor);
-            }
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (Exception $exception) {
-            throw new Exception($exception);
-        }
-    }
+            if ($todos) {
+                return $this->conexao()->query($sql);
 
-    public function selectAll($sql)
-    {
-        try {
-            return $this->conexao()->query($sql);
+            } else {
+                $stmt = $this->conexao()->prepare($sql);
+                foreach ($arrayParams as $chave => &$valor) {
+                    $stmt->bindParam($chave, $valor);
+                }
+                $stmt->execute();
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            }
         } catch (Exception $exception) {
             throw new Exception($exception);
         }

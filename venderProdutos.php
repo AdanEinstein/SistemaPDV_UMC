@@ -2,6 +2,7 @@
 include_once "includes/header.php";
 require "banco/conexBanco.php";
 session_start();
+$conexao = new DAO();
 if (isset($_SESSION["resposta"])) {
     $resposta = $_SESSION["resposta"];
     echo '<div class="alert alert-info alert-dismissible fade show position-absolute" style="right: 10px; top: 10px;" role="alert">' .
@@ -10,15 +11,24 @@ if (isset($_SESSION["resposta"])) {
                 </div>';
     unset($_SESSION["resposta"]);
 }
+$venda = 0;
+if (!isset($_SESSION["vendaid"])) {
+    $sql = "SELECT MAX(id_venda) as id FROM pdv_vendas";
+    $venda = $conexao->select($sql, null, true)->fetch(PDO::FETCH_ASSOC)["id"];
+    if (empty($venda)) {
+        $venda = 1;
+    }
+} else {
+    $venda = $_SESSION["vendaid"];
+}
 ?>
-
     <nav class="navbar navbar-expand-lg navbar-dark mb-md-0 mb-3"
          style="background-color: #1b86ff; box-shadow: 5px 5px 15px -3px #000000;">
         <div class="container-fluid">
             <a class="navbar-brand" href="home.php">
                 <img src="./images/basket-fill.svg" alt="" width="30" height="24"
                      class="d-inline-block align-text-top">
-                Home
+                Home<?php print($venda)?>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                     aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,26 +70,29 @@ if (isset($_SESSION["resposta"])) {
         <div class="tab-content bg-dark text-white p-3" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-lista" role="tabpanel" aria-labelledby="pill-lista-vendas">
                 <div class="input-group">
-                    <select class="form-select" id="inputProduto">
-                        <option selected>Escolha....</option>
-                        <?php
-                        $sql = "SELECT * FROM produtos";
-                        $conexao = new DAO();
-                        try {
-                            $dados = $conexao->selectAll($sql);
-                            if ($dados->rowCount() > 0):
-                                while ($row = $dados->fetch(PDO::FETCH_ASSOC)):
-                                    ?>
-                                    <option value="<?php print($row["id"]) ?>"><?php print($row["descricao"]. " -> R$ " . str_replace(".", ",", $row["preco"]))?></option>
-                                <?php
-                                endwhile;
-                            endif;
-                        } catch (Exception $e) {
-                            header("Location: home.php");
-                        }
-                        ?>
-                    </select>
-                    <button class="btn btn-primary" type="button">Adicionar</button>
+                    <form class="d-flex flex-row w-100" action="actions/actioninserirproduto.php" method="get">
+                        <input type="hidden" value="<?php print($venda) ?>"
+                               name="idvenda">
+                        <select class="form-select w-100" id="inputProduto" name="idproduto">
+                            <option selected value="">Escolha....</option>
+                            <?php
+                            $sql = "SELECT * FROM pdv_produtos";
+                            try {
+                                $dados = $conexao->select($sql, null, true);
+                                if ($dados->rowCount() > 0):
+                                    while ($row = $dados->fetch(PDO::FETCH_ASSOC)):
+                                        ?>
+                                        <option value="<?php print($row["id"]) ?>"><?php print($row["descricao"] . " -> R$ " . str_replace(".", ",", $row["preco"])) ?></option>
+                                    <?php
+                                    endwhile;
+                                endif;
+                            } catch (Exception $e) {
+                                header("Location: home.php");
+                            }
+                            ?>
+                        </select>
+                        <button class="btn btn-primary" type="submit">Adicionar</button>
+                    </form>
                 </div>
                 <table class="table table-dark">
                     <thead>
@@ -92,28 +105,38 @@ if (isset($_SESSION["resposta"])) {
                     </tr>
                     </thead>
                     <tbody>
+                    <?php
+                    if (isset($_SESSION["vendaid"])):
+                        $sql = "SELECT prod.* FROM pdv_produtos prod INNER JOIN pdv_vendas vend ON prod.id = vend.id_produto WHERE vend.id_venda = '$venda'";
+                        $dados = $conexao->select($sql, null, true);
+                        while ($row = $dados->fetch(PDO::FETCH_ASSOC)):
+                            ?>
                             <tr>
-                                <th class="d-md-table-cell d-none" scope="row">#</th>
-                                <td>Descrição</td>
-                                <td class="d-md-table-cell d-none">Preco</td>
-                                <td><input class="form-control w-100" type="number" min="1"></td>
+                                <th class="d-md-table-cell d-none" scope="row"><?php print($row["id"])?></th>
+                                <td><?php print($row["descricao"])?></td>
+                                <td class="d-md-table-cell d-none"><?php print("R$ " . str_replace(".", ",", $row["preco"])) ?></td>
+                                <td><input class="form-control w-100" type="number" min="1" name="quantVenda"></td>
                                 <td>
                                     <a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal"
-                                       data-bs-whatever="valor id" data-bs-whatever2="descrição valor">
+                                       data-bs-whatever="<?php print($row["id"])?>" data-bs-whatever2="<?php print($row["descricao"])?>">
                                         <img src="images/trash-fill.svg" width="16" height="16" alt="delete">
                                     </a>
                                 </td>
                             </tr>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                     </tbody>
                 </table>
-                <button class="btn btn-success btn-lg position-absolute" style="z-index: 10; bottom: 50px; right: 10px;">Vender!</button>
+                <button class="btn btn-success btn-lg position-absolute"
+                        style="z-index: 10; bottom: 50px; right: 10px;">Vender!
+                </button>
             </div>
             <div class="tab-pane fade" id="pills-total" role="tabpanel" aria-labelledby="pill-total-vendas">
                 Aba de Vendas!
             </div>
         </div>
     </main>
-<!--Modal-->
+    <!--Modal-->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

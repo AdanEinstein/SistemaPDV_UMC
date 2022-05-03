@@ -16,7 +16,7 @@ if (empty($descricao)) {
     $_SESSION['resposta'] = 'Quantidade inválida!';
     header("Location: ../alterarProduto.php?id=".$id);
 } else {
-    $sql = "UPDATE produtos SET descricao = :descricao, preco = :preco, quantidade = :quantidade WHERE id = :id";
+    $sql = "UPDATE pdv_produtos SET descricao = :descricao, preco = :preco, quantidade = :quantidade WHERE id = :id";
     $formatarQuantidade = str_replace(",", ".", $quantidade);
     $formatarPreco = str_replace(",", ".", $preco);
     $params = [":descricao"=>$descricao, ":preco"=>$formatarPreco, ":quantidade"=>$formatarQuantidade, ":id"=>$id];

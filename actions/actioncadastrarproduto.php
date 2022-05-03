@@ -15,7 +15,7 @@ if (empty($descricao)) {
     $_SESSION['resposta'] = 'Quantidade inválida!';
     header("Location: ../cadastroProduto.php");
 } else {
-    $sql = "INSERT INTO produtos VALUES (DEFAULT, :descricao, :preco, :quantidade)";
+    $sql = "INSERT INTO pdv_produtos VALUES (DEFAULT, :descricao, :preco, :quantidade)";
     $formatarQuantidade = str_replace(",", ".", $quantidade);
     $formatarPreco = str_replace(",", ".", $preco);
     $params = [":descricao"=>$descricao, ":preco"=>$formatarPreco, ":quantidade"=>$formatarQuantidade];

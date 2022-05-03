@@ -11,9 +11,9 @@ if (empty($login)) {
     $_SESSION['resposta'] = "Preencha o campo PASSWORD!!!";
     header("Location: ../index.php");
 } else {
-    $sql = "SELECT * FROM usuarios WHERE login = :login AND senha = :senha";
+    $sql = "SELECT * FROM pdv_usuarios WHERE login = :login AND senha = :senha";
     $conexao = new DAO();
-    $dados = $conexao->selectParam($sql, [":login" => $login, ":senha" => $senha]);
+    $dados = $conexao->select($sql, [":login" => $login, ":senha" => $senha]);
 
     if ($dados["login"] == $login and $dados["senha"] == $senha) {
         $usuario = array("login" => $dados['login'], "senha" => $dados['senha'], "perfil" => $dados['perfil']);

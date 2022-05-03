@@ -5,10 +5,10 @@ require 'banco/conexBanco.php';
 $dados = 0;
 if (isset($_GET['id'])){
     $id = $_GET['id'];
-    $sql = "SELECT * FROM produtos WHERE id = :id";
+    $sql = "SELECT * FROM pdv_produtos WHERE id = :id";
     $param = [":id" => $id];
     $conexao = new DAO();
-    $dados = $conexao->selectParam($sql, $param);
+    $dados = $conexao->select($sql, $param);
 }
 ?>
     <nav class="navbar navbar-expand-lg navbar-dark"

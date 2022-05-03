@@ -15,7 +15,7 @@ if (empty($user)) {
     $_SESSION['resposta'] = 'Senhas não correspondentes!';
     header("Location: ../cadastroUser.php");
 } else {
-    $sql = "INSERT INTO usuarios VALUES (DEFAULT, :user, :password, :perfil)";
+    $sql = "INSERT INTO pdv_usuarios VALUES (DEFAULT, :user, :password, :perfil)";
     $params = [":user"=>$user, ":password"=>$password, ":perfil"=>'padrão'];
     $conexao = new DAO();
     if ($conexao->executeSQL($sql, $params)) {
