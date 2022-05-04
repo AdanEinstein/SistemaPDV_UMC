@@ -10,6 +10,12 @@ include_once "includes/header.php"
             <label for="user">User</label>
         </div>
         <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" name="email">
+            <label for="email">Enter your email:</label>
+            
+        </div>
+
+        <div class="form-floating mb-3">
             <input type="password" class="form-control" id="password" name="password">
             <label for="password">Password</label>
         </div>
@@ -28,6 +34,7 @@ include_once "includes/header.php"
             <a style="width: 70%" href="cadastroUser.php" class="btn btn-outline-light bg-opacity-25 me-2">Faça seu cadastro!</a>
             <button style="width: 70%" class="btn bg-primary text-white" type="submit">Entrar</button>
         </div>
+        <a href="./recuperarSenha.php">Esqueci minha senha</a>
     </form>
 </div>
 <?php
