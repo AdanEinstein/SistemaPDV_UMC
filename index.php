@@ -10,12 +10,6 @@ include_once "includes/header.php";
             <label for="user">User</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" name="email">
-            <label for="email">Enter your email:</label>
-            
-        </div>
-
-        <div class="form-floating mb-3">
             <input type="password" class="form-control" id="password" name="password">
             <label for="password">Password</label>
         </div>

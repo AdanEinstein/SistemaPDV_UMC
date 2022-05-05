@@ -41,7 +41,7 @@ if (isset($_SESSION["resposta"])) {
 </nav>
 <main class="bg-light bg-opacity-75 p-md-3 p-2 m-md-3">
     <h2 class="titulo" style="font-weight: bold">
-        Lista de Funcionários
+        Lista de Produtos
     </h2>
     <hr>
     <table class="table table-dark">
