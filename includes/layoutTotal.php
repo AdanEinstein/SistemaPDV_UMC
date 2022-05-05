@@ -8,7 +8,7 @@
 <table class="table table-dark">
     <thead>
     <tr>
-        <?php print(isset($_SESSION["relatorio"]) ? "" : "<th scope=\"col\">#</th>")?>
+        <?php print(isset($_SESSION["relatorio"]) ? "" : "<th class=\"d-md-table-cell d-none\"  scope=\"col\">#</th>")?>
         <th scope="col">Data</th>
         <?php print(isset($_SESSION["relatorio"]) ? "<th scope=\"col\">Valor Total</th>" : "<th scope=\"col\">Valor</th>")?>
 
@@ -45,7 +45,7 @@
             <tr>
                 <th class="d-md-table-cell d-none" scope="row"><?php print($row["id"]) ?></th>
                 <td><?php print(date_format(date_create($row["data_venda"]), 'd/m/Y')) ?></td>
-                <td class="d-md-table-cell d-none"><?php print("R$ " . str_replace(".", ",", $row["total"])) ?></td>
+                <td><?php print("R$ " . str_replace(".", ",", $row["total"])) ?></td>
             </tr>
         <?php
         endwhile;

@@ -15,9 +15,15 @@ $venda = 0;
 $total = 0;
 if (!isset($_SESSION["vendaid"])) {
     $sql = "SELECT MAX(id_venda) as id FROM pdv_vendas";
-    $venda = $conexao->select($sql, null, true)->fetch(PDO::FETCH_ASSOC)["id"] + 1;
+    $venda = $conexao->select($sql, null, true)->fetch(PDO::FETCH_ASSOC)["id"];
     if (empty($venda)) {
         $venda = 1;
+    } else {
+        $sql = "SELECT * FROM pdv_total WHERE id_venda = '$venda'";
+        $existe = $conexao->select($sql, null, true);
+        if($existe->rowCount() > 0){
+            $venda += 1;
+        }
     }
 } else {
     $venda = $_SESSION["vendaid"];
@@ -88,6 +94,7 @@ if (!isset($_SESSION["vendaid"])) {
                 <form action="actions/actiondeletaritem.php" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
+                            <input type="hidden" name="idvenda" value="<?php print($venda)?>">
                             <input class="d-none" type="text" id="idproduto" name="id" readonly>
                             Deseja mesmo deletar o produto: "<span id="descricaoProduto"></span>"
                         </div>
