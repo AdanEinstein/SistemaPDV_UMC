@@ -1,13 +1,15 @@
 <?php
 session_start();
 require_once '../banco/conexBanco.php';
+
 $email = $_POST['email'];
 $password = $_POST['password'];
 $confirmPassword = $_POST['confirmPassword'];
 
+
 if($password == $confirmPassword)
 {
-    $sql = "UPDATE pdv_usuarios SET :password WHERE :id)";
+    $sql = "UPDATE pdv_usuarios SET :password WHERE :id =$id)";
     $params = [":password"=>$password, ":perfil"=>'padrão'];
     $conexao = new DAO();
     if ($conexao->executeSQL($sql, $params)) {
