@@ -1,5 +1,5 @@
 <?php
-include_once "includes/header.php"
+include_once "includes/header.php";
 ?>
 <div class="container d-flex align-items-center mt-5 p-3 flex-column"
      style="background: rgba(204,204,204,0.63); border-radius: 10px; ">
@@ -34,7 +34,6 @@ include_once "includes/header.php"
             <a style="width: 70%" href="cadastroUser.php" class="btn btn-outline-light bg-opacity-25 me-2">Faça seu cadastro!</a>
             <button style="width: 70%" class="btn bg-primary text-white" type="submit">Entrar</button>
         </div>
-        <a href="./recuperarSenha.php">Esqueci minha senha</a>
     </form>
 </div>
 <?php

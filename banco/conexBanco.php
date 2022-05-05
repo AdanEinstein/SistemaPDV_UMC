@@ -31,7 +31,7 @@ class DAO
             }
             return $stmt->execute();
         } else {
-            throw new \http\Exception\RuntimeException("Parâmetros inválidos!");
+            throw new RuntimeException("Parâmetros inválidos!");
         }
     }
 
