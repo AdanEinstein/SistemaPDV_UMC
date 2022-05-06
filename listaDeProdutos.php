@@ -13,34 +13,10 @@ if (isset($_SESSION["resposta"])) {
     unset($_SESSION["resposta"]);
 }
 ?>
-<nav class="navbar navbar-expand-lg navbar-dark mb-md-0 mb-3"
-     style="background-color: #1b86ff; box-shadow: 5px 5px 15px -3px #000000;">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="home.php">
-            <img src="./images/basket-fill.svg" alt="" width="30" height="24"
-                 class="d-inline-block align-text-top">
-            Home
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="listaDeProdutos.php" class="nav-link">Listar produtos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="cadastroProduto.php" class="nav-link">Cadastrar Produto</a>
-                </li>
-                <li class="nav-item">
-                    <a href="venderProdutos.php" class="nav-link">Vender</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<main class="bg-light bg-opacity-75 p-md-3 p-2 m-md-3">
+<?php if (isset($_SESSION["usuario"])):
+    include_once "includes/nav.php";
+    ?>
+<main class="bg-light bg-opacity-75 p-md-3 p-2 m-md-3 my-3">
     <?php include_once "includes/layoutListaProdutos.php" ?>
 </main>
 <!--MODAL-->
@@ -67,8 +43,11 @@ if (isset($_SESSION["resposta"])) {
     </div>
 </div>
 <script src="style/js/resources.js"></script>
-
 <?php
+else:
+    include_once "includes/notfound.php";
+endif;
+
 include_once "includes/footer.php"
 ?>
 

@@ -24,4 +24,3 @@ if (empty($login)) {
         header("Location: ../index.php");
     }
 }
-?>
