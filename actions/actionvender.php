@@ -17,4 +17,7 @@ if(isset($_POST["vendaid"])){
         $_SESSION["resposta"] = "Para confirmar a venda deve haver pelo menos um item na lista!";
         header("Location: ../venderProdutos.php");
     }
+} else {
+    $_SESSION["resposta"] = "Erro ao confirmar a venda!";
+    header("Location: ../venderProdutos.php");
 }

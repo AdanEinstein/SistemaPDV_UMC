@@ -9,4 +9,7 @@ $conexao = new DAO();
 if ($conexao->executeSQL($sql, $params)) {
     $_SESSION['resposta'] = 'Produto deletado com sucesso!';
     header("Location: ../listaDeProdutos.php");
+} else {
+    $_SESSION['resposta'] = 'Não foi possível deletar este produto!';
+    header("Location: ../listaDeProdutos.php");
 }

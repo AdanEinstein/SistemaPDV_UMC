@@ -15,64 +15,51 @@ $venda = 0;
 $total = 0;
 if (!isset($_SESSION["vendaid"])) {
     $sql = "SELECT MAX(id_venda) as id FROM pdv_vendas";
-    $venda = $conexao->select($sql, null, true)->fetch(PDO::FETCH_ASSOC)["id"] + 1;
+    $venda = $conexao->select($sql, null, true)->fetch(PDO::FETCH_ASSOC)["id"];
     if (empty($venda)) {
         $venda = 1;
+    } else {
+        $sql = "SELECT * FROM pdv_total WHERE id_venda = '$venda'";
+        $existe = $conexao->select($sql, null, true);
+        if ($existe->rowCount() > 0) {
+            $venda += 1;
+        }
     }
 } else {
     $venda = $_SESSION["vendaid"];
     unset($_SESSION["vendaid"]);
 }
 ?>
-    <nav class="navbar navbar-expand-lg navbar-dark mb-md-0 mb-3"
-         style="background-color: #1b86ff; box-shadow: 5px 5px 15px -3px #000000;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="home.php">
-                <img src="./images/basket-fill.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
-                Home
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="listaDeProdutos.php" class="nav-link">Listar produtos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="cadastroProduto.php" class="nav-link">Cadastrar Produto</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="venderProdutos.php" class="nav-link">Vender</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <main class="bg-light bg-opacity-75 p-md-3 p-2 m-md-3">
+<?php if (isset($_SESSION["usuario"])):
+    include_once "includes/nav.php";
+    ?>
+    <main class="bg-light bg-opacity-75 p-md-3 p-2 m-md-3 my-3">
         <h2 class="titulo" style="font-weight: bold">
             Pronto para vender? Vamos lá!
         </h2>
         <hr>
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link <?php print(isset($_SESSION["relatorio"]) ? "" : "active")?>" id="pill-lista-vendas" data-bs-toggle="pill"
+                <button class="nav-link <?php print(isset($_SESSION["relatorio"]) ? "" : "active") ?>"
+                        id="pill-lista-vendas" data-bs-toggle="pill"
                         data-bs-target="#pills-lista" type="button" role="tab" aria-controls="pills-lista"
-                        >Lista de Compras
+                >Lista de Compras
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link <?php print(isset($_SESSION["relatorio"]) ? "active" : "")?>" id="pill-total-vendas" data-bs-toggle="pill" data-bs-target="#pills-total"
+                <button class="nav-link <?php print(isset($_SESSION["relatorio"]) ? "active" : "") ?>"
+                        id="pill-total-vendas" data-bs-toggle="pill" data-bs-target="#pills-total"
                         type="button" role="tab" aria-controls="pills-total">Total de Vendas
                 </button>
             </li>
         </ul>
         <div class="tab-content bg-dark text-white p-3" id="pills-tabContent">
-            <div class="tab-pane fade <?php print(isset($_SESSION["relatorio"]) ? "" : "show active")?>" id="pills-lista" role="tabpanel" aria-labelledby="pill-lista-vendas">
+            <div class="tab-pane fade <?php print(isset($_SESSION["relatorio"]) ? "" : "show active") ?>"
+                 id="pills-lista" role="tabpanel" aria-labelledby="pill-lista-vendas">
                 <?php include_once "includes/layoutVender.php" ?>
             </div>
-            <div class="tab-pane fade <?php print(isset($_SESSION["relatorio"]) ? "show active" : "")?>" id="pills-total" role="tabpanel" aria-labelledby="pill-total-vendas">
+            <div class="tab-pane fade <?php print(isset($_SESSION["relatorio"]) ? "show active" : "") ?>"
+                 id="pills-total" role="tabpanel" aria-labelledby="pill-total-vendas">
                 <?php include_once "includes/layoutTotal.php" ?>
             </div>
         </div>
@@ -88,6 +75,7 @@ if (!isset($_SESSION["vendaid"])) {
                 <form action="actions/actiondeletaritem.php" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
+                            <input type="hidden" name="idvenda" value="<?php print($venda) ?>">
                             <input class="d-none" type="text" id="idproduto" name="id" readonly>
                             Deseja mesmo deletar o produto: "<span id="descricaoProduto"></span>"
                         </div>
@@ -126,34 +114,11 @@ if (!isset($_SESSION["vendaid"])) {
             </div>
         </div>
     </div>
-    <script>
-        let modal = document.getElementById('modal')
-        modal.addEventListener('show.bs.modal', function (event) {
-            let botao = event.relatedTarget
-            let produtoid = botao.getAttribute('data-bs-whatever')
-            let produtodescricao = botao.getAttribute('data-bs-whatever2')
-            let idProduto = modal.querySelector('#idproduto')
-            let descricaoModal = modal.querySelector('#descricaoProduto')
-            idProduto.value = produtoid
-            descricaoModal.innerHTML = produtodescricao
-        })
-
-        let modal2 = document.getElementById('modal2')
-        modal2.addEventListener('show.bs.modal', function (event) {
-            let botao = event.relatedTarget
-            let vendaid = botao.getAttribute('data-bs-whatever')
-            let total = botao.getAttribute('data-bs-whatever2')
-            let idVenda = modal2.querySelector('#vendaid')
-            let totalValor = modal2.querySelector('#total')
-            idVenda.value = vendaid
-            totalValor.innerHTML = parseFloat(total).toLocaleString("pt-BR", {
-                minimumFractionDigits: 2,
-                style: 'currency',
-                currency: 'BRL'
-            })
-        })
-    </script>
-
+    <script src="style/js/resources.js"></script>
 <?php
+else:
+    include_once "includes/notfound.php";
+endif;
+
 include_once "includes/footer.php";
 ?>
