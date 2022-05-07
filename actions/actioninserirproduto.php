@@ -26,6 +26,10 @@ if (empty($_GET["idproduto"])) {
             $params = [":idVenda" => $id_venda, ":idProduto" => $id_produto, ":quantidade"=>$quant];
             $conexao->executeSQL($sql, $params);
             $_SESSION["vendaid"] = $id_venda;
+            $quantidadeRestante = $quantidade["quantidade"] - $quant;
+            $sql = "UPDATE pdv_produtos SET quantidade = :quantidadeRestante WHERE id = :idProduto";
+            $params = [":quantidadeRestante"=>$quantidadeRestante, ":idProduto"=>$id_produto];
+            $conexao->executeSQL($sql, $params);
             header("Location: ../venderProdutos.php");
         } else {
             $_SESSION["resposta"] = "Produto já foi selecionado!";
