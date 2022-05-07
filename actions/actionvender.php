@@ -8,8 +8,9 @@ if(isset($_POST["vendaid"])){
     $existe = $conexao->select($sql, null, true);
     if($existe->rowCount() > 0){
         $dataAtual = date('Y-m-d');
-        $sql = "INSERT INTO pdv_total(id, id_venda, data_venda) VALUES (DEFAULT, :idvenda, :datavenda)";
-        $params = [":idvenda"=>$id_venda, ":datavenda"=>$dataAtual];
+        $total = $_POST["total"];
+        $sql = "INSERT INTO pdv_total(id, id_venda ,data_venda, total) VALUES (DEFAULT, :idvenda, :datavenda, :total)";
+        $params = [":idvenda"=>$id_venda,":datavenda"=>$dataAtual, ":total"=>$total];
         $conexao->executeSQL($sql, $params);
         $_SESSION["vendaid"] = null;
         header("Location: ../venderProdutos.php");
