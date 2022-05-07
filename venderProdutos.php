@@ -100,6 +100,7 @@ if (!isset($_SESSION["vendaid"])) {
                     <div class="modal-body">
                         <div class="mb-3">
                             <input class="d-none" type="text" id="vendaid" name="vendaid" readonly>
+                            <input class="d-none" type="text" name="total" value="<?php print($total)?>" readonly>
                             <h6 class="d-flex justify-content-center">Total:
                                 <span id="total" style="margin-left: 10px"
                                       class="text-success"></span>

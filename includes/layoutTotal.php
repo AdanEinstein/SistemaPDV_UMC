@@ -1,3 +1,4 @@
+<?php print(isset($_SESSION["relatorio"]) ? "" : "<h5 class='fw-bolder'>Lista das vendas de hoje...</h5><hr>")?>
 <form class="d-flex flex-row mb-2" action="actions/actiondatarelatorio.php" method="post">
     <div class="input-group mx-2">
         <span class="input-group-text">Data inicial:</span>
@@ -17,10 +18,7 @@
     <?php
     if (isset($_SESSION["relatorio"])):
         $dataInicial = $_SESSION["relatorio"];
-        $sql = "SELECT tot.data_venda, SUM(vend.quantidade * prod.preco) as total FROM pdv_total tot
-                            INNER JOIN pdv_vendas vend ON tot.id_venda = vend.id_venda
-                            INNER JOIN pdv_produtos prod ON vend.id_produto = prod.id
-                            WHERE tot.data_venda >= '$dataInicial' GROUP BY tot.data_venda ORDER BY tot.data_venda DESC";
+        $sql = "SELECT tot.data_venda, SUM(tot.total) as total FROM pdv_total tot WHERE tot.data_venda >= '$dataInicial' GROUP BY tot.data_venda ORDER BY tot.data_venda DESC";
         /** @var TYPE_NAME $conexao */
         $relatorio = $conexao->select($sql, null, true);
         while ($row = $relatorio->fetch(PDO::FETCH_ASSOC)):
@@ -33,10 +31,7 @@
         endwhile;
         unset($_SESSION["relatorio"]);
     else:
-        $sql = "SELECT tot.*, SUM(vend.quantidade * prod.preco) as total FROM pdv_total tot 
-                            INNER JOIN pdv_vendas vend ON tot.id_venda = vend.id_venda
-                            INNER JOIN pdv_produtos prod ON vend.id_produto = prod.id
-                            GROUP BY tot.id_venda ORDER BY tot.data_venda DESC";
+        $sql = "SELECT * FROM pdv_total tot WHERE tot.data_venda = CURRENT_DATE() GROUP BY tot.id_venda ORDER BY tot.data_venda DESC";
         /** @var TYPE_NAME $conexao */
         $dados = $conexao->select($sql, null, true);
         while ($row = $dados->fetch(PDO::FETCH_ASSOC)):

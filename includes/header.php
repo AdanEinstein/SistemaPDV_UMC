@@ -10,7 +10,7 @@
     <script src="style/js/bootstrap.bundle.js"></script>
     <title>Sistema PDV</title>
 </head>
-<body class="bg-dark">
+<body class="bg-dark vh-100">
     <header class="bg-primary text-white p-3 vw-100 top-0">
         <h1>Sistema PDV</h1>
         <h2 class="d-md-block d-none">Seu sistema de estoque e vendas em um só lugar</h2>
