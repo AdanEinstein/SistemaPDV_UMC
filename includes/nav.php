@@ -22,7 +22,7 @@
                     <a href="venderProdutos.php" class="nav-link my-1">Vender</a>
                 </li>
                 <li class="nav-item d-lg-none">
-                    <a href="venderProdutos.php" class="btn btn-danger w-100 my-1">Sair</a>
+                    <a href="index.php" class="btn btn-danger w-100 my-1">Sair</a>
                 </li>
             </ul>
         </div>
