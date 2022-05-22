@@ -6,7 +6,7 @@ class Produto{
     private $preco;
     private $quantidade;
 
-    public function __construct(int $id, string $descricao, string $preco, string $quantidade)
+    public function __construct(int $id = null, string $descricao = null, string $preco = null, string $quantidade = null)
     {
         $this->setId($id);
         $this->setDescricao($descricao);

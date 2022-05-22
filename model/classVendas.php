@@ -6,7 +6,7 @@ class Venda
     private $produto;
     private $quantidade;
 
-    public function __construct(int $id, Produto $produto, int $quantidade)
+    public function __construct(int $id, int $produto, int $quantidade)
     {
         $this->setId($id);
         $this->setProduto($produto);
@@ -23,12 +23,12 @@ class Venda
         $this->id = $id;
     }
 
-    public function getProduto(): Produto
+    public function getProduto(): int
     {
         return $this->produto;
     }
 
-    public function setProduto(Produto $produto): void
+    public function setProduto(int $produto): void
     {
         $this->produto = $produto;
     }

@@ -36,7 +36,7 @@ if (!isset($_SESSION["vendaid"])) {
     ?>
     <main class="bg-light bg-opacity-75 p-md-3 p-2 m-md-3 my-3">
         <h2 class="titulo" style="font-weight: bold">
-            Pronto para vender? Vamos lá! <?print($venda)?>
+            Pronto para vender? Vamos lá!
         </h2>
         <hr>
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">

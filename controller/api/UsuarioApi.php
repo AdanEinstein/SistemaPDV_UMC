@@ -11,8 +11,7 @@ class UsuarioApi
 
         if ($dados = $conexao->select($sql, [":login" => $login, ":senha" => $senha])) {
             if ($dados["login"] == $login and $dados["senha"] == $senha) {
-                $usuario = new Usuario($dados['id'], $dados['login'], $dados['senha'], $dados['perfil']);
-                return $usuario;
+                return new Usuario($dados['id'], $dados['login'], $dados['senha'], $dados['perfil']);
             } else {
                 return false;
             }
@@ -26,7 +25,8 @@ class UsuarioApi
         $conexao = new DAO();
         $sql = "SELECT * FROM pdv_usuarios WHERE id = :id";
         $param = [":id" => $id];
-        return $conexao->select($sql, $param, false, true);
+        $dados = $conexao->select($sql, $param, false, true);
+        return new Usuario($dados->id, $dados->login, $dados->senha, $dados->perfil);
     }
 
     public static function getUserByLogin(string $login)

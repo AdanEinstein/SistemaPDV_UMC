@@ -17,10 +17,10 @@ if (isset($_GET['id'])){
             <h2 class="text-center text-white mb-3 fw-bolder">Altere o perfil aqui!</h2>
             <form action="controller/actionalteraruser.php" method="post" class="w-75">
                 <div class="form-floating mb-3">
-                    <input type="hidden" class="form-control" id="id" value="<?php print($user->id)?>" name="id" readonly>
+                    <input type="hidden" class="form-control" id="id" value="<?php print($user->getId())?>" name="id" readonly>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="descricao" value="<?php print($user->login)?>" name="login" readonly>
+                    <input type="text" class="form-control" id="descricao" value="<?php print($user->getLogin())?>" name="login" readonly>
                     <label for="descricao">Login</label>
                 </div>
                 <div class="form-floating my-3">
