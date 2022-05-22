@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark"
-     style="background: linear-gradient(to right, rgb(170, 7, 107), rgb(97, 4, 95)); box-shadow: 5px 5px 15px -3px #000000;">
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark"
+     style="box-shadow: 5px 5px 15px -3px #000000;">
     <div class="container-fluid">
         <a class="navbar-brand" href="home.php">
             <img src="./images/basket-fill.svg" alt="" width="30" height="24"

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../banco/conexBanco.php";
+require_once '../database/classDAO.php';
 $conexao = new DAO();
 if (empty($_GET["idproduto"])) {
     $_SESSION["resposta"] = "Por favor! Selecione algum produto";

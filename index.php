@@ -7,7 +7,7 @@ include_once "includes/header.php";
         <div class="col-md-6 col-12 d-flex flex-column my-4 py-3 align-items-center"
              style="background: rgba(204,204,204,0.38); border-radius: 10px; ">
             <h2 class="text-center text-white fw-bolder mb-5">Faça o seu login!</h2>
-            <form action="actions/entrar.php" method="post" class="w-75">
+            <form action="controller/entrar.php" method="post" class="w-75">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="user" name="user">
                     <label for="user">User</label>

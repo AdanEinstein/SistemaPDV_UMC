@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../banco/conexBanco.php';
+require_once '../database/classDAO.php';
 $descricao = $_POST['descricao'];
 $preco = $_POST['preco'];
 $quantidade = $_POST['quantidade'];

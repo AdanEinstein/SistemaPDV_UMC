@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../banco/conexBanco.php';
+require_once '../database/classDAO.php';
 $user = $_POST['user'];
 $password = $_POST['password'];
 $confirmPassword = $_POST['confirmPassword'];

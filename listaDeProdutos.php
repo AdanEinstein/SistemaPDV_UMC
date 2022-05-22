@@ -1,7 +1,7 @@
 <?php
 include_once "includes/header.php";
 
-require_once 'banco/conexBanco.php';
+require_once 'database/classDAO.php';
 $conexao = new DAO();
 session_start();
 if (isset($_SESSION["resposta"])) {
@@ -27,7 +27,7 @@ if (isset($_SESSION["resposta"])) {
                 <h5 class="modal-title" id="exampleModalLabel">Deletar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="actions/actiondeletarproduto.php" method="post">
+            <form action="controller/actiondeletarproduto.php" method="post">
                 <div class="modal-body">
                     <div class="mb-3">
                         <input class="d-none" type="text" id="idproduto" name="id" readonly>

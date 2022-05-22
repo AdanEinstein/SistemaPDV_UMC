@@ -1,5 +1,5 @@
 <?php print(isset($_SESSION["relatorio"]) ? "" : "<h5 class='fw-bolder'>Lista das vendas de hoje...</h5><hr>")?>
-<form class="d-flex flex-row mb-2" action="actions/actiondatarelatorio.php" method="post">
+<form class="d-flex flex-row mb-2" action="controller/actiondatarelatorio.php" method="post">
     <div class="input-group mx-2">
         <span class="input-group-text">Data inicial:</span>
         <input type="date" class="form-control" name="datainicial" value="<?php print(isset($_SESSION["relatorio"]) ? $_SESSION["relatorio"] : date('Y-m-d'))?>">

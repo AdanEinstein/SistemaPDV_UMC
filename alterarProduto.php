@@ -1,7 +1,7 @@
 <?php
 include_once "includes/header.php";
 session_start();
-require 'banco/conexBanco.php';
+require_once 'database/classDAO.php';
 $dados = 0;
 if (isset($_GET['id'])){
     $id = $_GET['id'];
@@ -18,7 +18,7 @@ if (isset($_GET['id'])){
         <div class="container d-flex align-items-center mt-5 flex-column p-3"
              style="background-color: rgba(204,204,204,0.63); border-radius: 10px;">
             <h2 class="text-center text-white mb-3 fw-bolder">Altere o produto!</h2>
-            <form action="actions/actionalterarproduto.php" method="post" class="w-75">
+            <form action="controller/actionalterarproduto.php" method="post" class="w-75">
                 <div class="form-floating mb-3">
                     <input type="hidden" class="form-control" id="id" value="<?php print($dados["id"])?>" name="id" readonly>
                 </div>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../banco/conexBanco.php';
+require_once '../database/classDAO.php';
 $id = $_POST['id'];
 $login = $_POST['login'];
 $perfil = $_POST['perfil'];

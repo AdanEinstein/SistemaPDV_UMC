@@ -1,5 +1,5 @@
 <div class="input-group">
-    <form class="d-flex flex-row w-100" action="actions/actioninserirproduto.php" method="get">
+    <form class="d-flex flex-row w-100" action="controller/actioninserirproduto.php" method="get">
         <input type="hidden" value="<?php /** @var TYPE_NAME $venda */
         print($venda) ?>" name="idvenda">
         <select class="form-select w-100" id="inputProduto" name="idproduto">

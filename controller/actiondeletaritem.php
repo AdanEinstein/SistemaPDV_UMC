@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../banco/conexBanco.php";
+require_once '../database/classDAO.php';
 $conexao = new DAO();
 
 $id_venda = $_POST["idvenda"];

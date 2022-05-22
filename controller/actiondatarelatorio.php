@@ -1,5 +1,5 @@
 <?php
-require "../banco/conexBanco.php";
+require_once '../database/classDAO.php';
 $conexao = new DAO();
 session_start();
 if(isset($_POST["datainicial"]) && !empty($_POST["datainicial"])){

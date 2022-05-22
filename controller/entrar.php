@@ -1,5 +1,5 @@
 <?php
-require_once '../banco/conexBanco.php';
+require_once(__DIR__.'/../controller/api/UsuarioApi.php');
 session_start();
 
 $login = $_POST["user"];
@@ -11,16 +11,11 @@ if (empty($login)) {
     $_SESSION['resposta'] = "Preencha o campo PASSWORD!!!";
     header("Location: ../index.php");
 } else {
-    $sql = "SELECT * FROM pdv_usuarios WHERE login = :login AND senha = :senha";
-    $conexao = new DAO();
-    $dados = $conexao->select($sql, [":login" => $login, ":senha" => $senha]);
-
-    if ($dados["login"] == $login and $dados["senha"] == $senha) {
-        $usuario = array("login" => $dados['login'], "senha" => $dados['senha'], "perfil" => $dados['perfil']);
-        if($dados["perfil"] == "adm"){
+    if($usuario = UsuarioApi::getUserByEmailPassword($login, $senha)){
+        if ($usuario->getPerfil() == "adm") {
             $_SESSION['adm'] = $usuario;
             header("Location: ../home.php");
-        } elseif ($dados["perfil"] == "padrão"){
+        } elseif ($usuario->getPerfil() == "padrão") {
             $_SESSION['usuario'] = $usuario;
             header("Location: ../home.php");
         } else {
@@ -28,7 +23,7 @@ if (empty($login)) {
             header("Location: ../index.php");
         }
     } else {
-        $_SESSION['resposta'] = "Login ou senha inválidos";
+        $_SESSION['resposta'] = "Usuário inválido!!!";
         header("Location: ../index.php");
     }
 }

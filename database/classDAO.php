@@ -1,5 +1,4 @@
 <?php
-
 class DAO
 {
 
@@ -8,7 +7,6 @@ class DAO
     private $pass = "";
     private $db = "crudphp";
     private $driver = "mysql";
-
 
     private function conexao()
     {
@@ -20,7 +18,7 @@ class DAO
         }
     }
 
-    function executeSQL($sql, $arrayParams)
+    public function executeSQL($sql, $arrayParams)
     {
         $stmt = $this->conexao()->prepare($sql);
         if (func_num_args() == 1) {
@@ -35,7 +33,7 @@ class DAO
         }
     }
 
-    function select($sql, $arrayParams = null, $todos = false)
+    public function select($sql, $arrayParams = null, $todos = false)
     {
         try {
             if ($todos) {
