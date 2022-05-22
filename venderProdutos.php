@@ -1,8 +1,9 @@
 <?php
 include_once "includes/header.php";
-require_once 'database/classDAO.php';
+require_once(__DIR__."/controller/api/VendaApi.php");
+require_once(__DIR__."/controller/api/TotalApi.php");
+require_once(__DIR__."/controller/api/ProdutoApi.php");
 session_start();
-$conexao = new DAO();
 if (isset($_SESSION["resposta"])) {
     $resposta = $_SESSION["resposta"];
     echo '<div class="alert alert-info alert-dismissible fade show position-absolute" style="right: 10px; top: 10px;" role="alert">' .
@@ -14,14 +15,14 @@ if (isset($_SESSION["resposta"])) {
 $venda = 0;
 $total = 0;
 if (!isset($_SESSION["vendaid"])) {
-    $sql = "SELECT MAX(id_venda) as id FROM pdv_vendas";
-    $venda = $conexao->select($sql, null, true)->fetch(PDO::FETCH_ASSOC)["id"];
+//    $sql = "SELECT MAX(id_venda) as id FROM pdv_vendas";
+    $venda = VendaApi::getMaxIdVenda()[0]->id;
     if (empty($venda)) {
         $venda = 1;
     } else {
-        $sql = "SELECT * FROM pdv_total WHERE id_venda = '$venda'";
-        $existe = $conexao->select($sql, null, true);
-        if ($existe->rowCount() > 0) {
+//        $sql = "SELECT * FROM pdv_total WHERE id_venda = '$venda'";
+//        $existe = $conexao->select($sql, null, true);
+        if (!empty(TotalApi::existsVendaFromTotal($venda))) {
             $venda += 1;
         }
     }
@@ -35,7 +36,7 @@ if (!isset($_SESSION["vendaid"])) {
     ?>
     <main class="bg-light bg-opacity-75 p-md-3 p-2 m-md-3 my-3">
         <h2 class="titulo" style="font-weight: bold">
-            Pronto para vender? Vamos lá!
+            Pronto para vender? Vamos lá! <?print($venda)?>
         </h2>
         <hr>
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">

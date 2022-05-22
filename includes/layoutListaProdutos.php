@@ -14,34 +14,27 @@
     </thead>
     <tbody>
     <?php
-    $sql = "SELECT * FROM pdv_produtos";
-    try {
-        /** @var TYPE_NAME $conexao */
-        $dados = $conexao->select($sql, null, true);
-    } catch (Exception $e) {
-        header("Location: home.php");
-    }
-    if ($dados->rowCount() > 0):
-        while ($row = $dados->fetch(PDO::FETCH_ASSOC)):
+    if ($dados = ProdutoApi::getProdutos()):
+        foreach ($dados as $row):
             ?>
             <tr>
-                <th class="d-md-table-cell d-none" scope="row"><?php print($row["id"]) ?></th>
-                <td><?php print($row["descricao"]) ?></td>
-                <td class="d-md-table-cell d-none"><?php print("R$ " . str_replace(".", ",", $row["preco"])) ?></td>
-                <td><?php print($row["quantidade"]) ?></td>
+                <th class="d-md-table-cell d-none" scope="row"><?php print($row->id) ?></th>
+                <td><?php print($row->descricao) ?></td>
+                <td class="d-md-table-cell d-none"><?php print("R$ " . str_replace(".", ",", $row->preco)) ?></td>
+                <td><?php print($row->quantidade) ?></td>
                 <td>
                     <a class="btn btn-warning
-                        btn-sm" href="<?php print("alterarProduto.php?id=" . $row["id"]) ?>">
+                        btn-sm" href="<?php print("alterarProduto.php?id=" . $row->id) ?>">
                         <img src="images/pencil-square.svg" width="16" height="16" alt="edit">
                     </a>
                     <a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal"
-                       data-bs-whatever="<?php print($row["id"])?>" data-bs-whatever2="<?php print($row["descricao"])?>">
+                       data-bs-whatever="<?php print($row->id)?>" data-bs-whatever2="<?php print($row->descricao)?>">
                         <img src="images/trash-fill.svg" width="16" height="16" alt="delete">
                     </a>
                 </td>
             </tr>
         <?php
-        endwhile;
+        endforeach;
     endif;
     ?>
     </tbody>

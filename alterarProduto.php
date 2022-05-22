@@ -1,14 +1,11 @@
 <?php
 include_once "includes/header.php";
+require_once(__DIR__."/controller/api/ProdutoApi.php");
 session_start();
-require_once 'database/classDAO.php';
 $dados = 0;
 if (isset($_GET['id'])){
     $id = $_GET['id'];
-    $sql = "SELECT * FROM pdv_produtos WHERE id = :id";
-    $param = [":id" => $id];
-    $conexao = new DAO();
-    $dados = $conexao->select($sql, $param);
+    $produto = ProdutoApi::getProdutoById($id);
 }
 ?>
 <?php if (isset($_SESSION["usuario"])):
@@ -20,18 +17,18 @@ if (isset($_GET['id'])){
             <h2 class="text-center text-white mb-3 fw-bolder">Altere o produto!</h2>
             <form action="controller/actionalterarproduto.php" method="post" class="w-75">
                 <div class="form-floating mb-3">
-                    <input type="hidden" class="form-control" id="id" value="<?php print($dados["id"])?>" name="id" readonly>
+                    <input type="hidden" class="form-control" id="id" value="<?php print($produto->id)?>" name="id" readonly>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="descricao" value="<?php print($dados["descricao"])?>" name="descricao">
+                    <input type="text" class="form-control" id="descricao" value="<?php print($produto->descricao)?>" name="descricao">
                     <label for="descricao">Descrição</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="preco" name="preco" value="<?php print($dados["preco"])?>">
+                    <input type="text" class="form-control" id="preco" name="preco" value="<?php print($produto->preco)?>">
                     <label for="preco">Preço (R$)</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="number" class="form-control" id="quantidade" name="quantidade" value="<?php print($dados["quantidade"])?>" min="0">
+                    <input type="number" class="form-control" id="quantidade" name="quantidade" value="<?php print($produto->quantidade)?>" min="0">
                     <label for="quantidade">Quantidade</label>
                 </div>
                 <?php

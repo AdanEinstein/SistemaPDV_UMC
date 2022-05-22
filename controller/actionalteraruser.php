@@ -1,10 +1,8 @@
 <?php
 session_start();
-require_once '../database/classDAO.php';
+require_once(__DIR__."/../controller/api/UsuarioApi.php");
 $id = $_POST['id'];
-$login = $_POST['login'];
 $perfil = $_POST['perfil'];
-$conexao = new DAO();
 
 if (empty($_POST["login"])) {
     $_SESSION['resposta'] = 'Login inválida!';
@@ -13,9 +11,7 @@ if (empty($_POST["login"])) {
     $_SESSION['resposta'] = 'O perfil não foi selecionado!';
     header("Location: ../alterarUser.php?id=" . $id);
 } else {
-    $sql = "UPDATE pdv_usuarios SET perfil = :perfil WHERE id = :id";
-    $params = [":perfil"=>$perfil, ":id"=>$id];
-    if($conexao->executeSQL($sql, $params)){
+    if(UsuarioApi::putUserPerfil($id, $perfil)){
         $_SESSION['resposta'] = 'Usuario atualizado com sucesso!';
     } else {
         $_SESSION['resposta'] = 'Erro de atualização!';

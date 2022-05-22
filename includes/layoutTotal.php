@@ -18,30 +18,24 @@
     <?php
     if (isset($_SESSION["relatorio"])):
         $dataInicial = $_SESSION["relatorio"];
-        $sql = "SELECT tot.data_venda, SUM(tot.total) as total FROM pdv_total tot WHERE tot.data_venda >= '$dataInicial' GROUP BY tot.data_venda ORDER BY tot.data_venda DESC";
-        /** @var TYPE_NAME $conexao */
-        $relatorio = $conexao->select($sql, null, true);
-        while ($row = $relatorio->fetch(PDO::FETCH_ASSOC)):
+        foreach (TotalApi::getTotalVendasByDate($dataInicial) as $row):
             ?>
             <tr>
-                <td><?php print(date_format(date_create($row["data_venda"]), 'd/m/Y')) ?></td>
-                <td><?php print("R$ " . str_replace(".", ",", $row["total"])) ?></td>
+                <td><?php print(date_format(date_create($row->data_venda), 'd/m/Y')) ?></td>
+                <td><?php print("R$ " . str_replace(".", ",", $row->total)) ?></td>
             </tr>
         <?php
-        endwhile;
+        endforeach;
         unset($_SESSION["relatorio"]);
     else:
-        $sql = "SELECT * FROM pdv_total tot WHERE tot.data_venda = CURRENT_DATE() GROUP BY tot.id_venda ORDER BY tot.data_venda DESC";
-        /** @var TYPE_NAME $conexao */
-        $dados = $conexao->select($sql, null, true);
-        while ($row = $dados->fetch(PDO::FETCH_ASSOC)):
+        foreach (TotalApi::getTotalVendasByCurrentDate() as $row):
             ?>
             <tr>
-                <td><?php print(date_format(date_create($row["data_venda"]), 'd/m/Y')) ?></td>
-                <td><?php print("R$ " . str_replace(".", ",", $row["total"])) ?></td>
+                <td><?php print(date_format(date_create($row->data_venda), 'd/m/Y')) ?></td>
+                <td><?php print("R$ " . str_replace(".", ",", $row->total)) ?></td>
             </tr>
         <?php
-        endwhile;
+        endforeach;
     endif;
     ?>
     </tbody>

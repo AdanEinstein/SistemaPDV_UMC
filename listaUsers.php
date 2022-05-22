@@ -1,8 +1,7 @@
 <?php
 include_once "includes/header.php";
+require_once(__DIR__."/controller/api/UsuarioApi.php");
 
-require_once 'database/classDAO.php';
-$conexao = new DAO();
 session_start();
 if (isset($_SESSION["resposta"])) {
     $resposta = $_SESSION["resposta"];

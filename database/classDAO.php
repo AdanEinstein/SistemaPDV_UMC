@@ -1,4 +1,5 @@
 <?php
+
 class DAO
 {
 
@@ -33,19 +34,18 @@ class DAO
         }
     }
 
-    public function select($sql, $arrayParams = null, $todos = false)
+    public function select($sql, $arrayParams = null, $todos = false, $objeto = false)
     {
         try {
-            if ($todos) {
-                return $this->conexao()->query($sql);
-
-            } else {
+            if ($arrayParams) {
                 $stmt = $this->conexao()->prepare($sql);
                 foreach ($arrayParams as $chave => &$valor) {
                     $stmt->bindParam($chave, $valor);
                 }
                 $stmt->execute();
-                return $stmt->fetch(PDO::FETCH_ASSOC);
+                return $todos ? $stmt->fetchAll(PDO::FETCH_OBJ) : $objeto ? $stmt->fetch(PDO::FETCH_OBJ) : $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                return $this->conexao()->query($sql)->fetchAll(PDO::FETCH_OBJ);
             }
         } catch (Exception $exception) {
             throw new Exception($exception);

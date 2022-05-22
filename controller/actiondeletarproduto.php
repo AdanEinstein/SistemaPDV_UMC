@@ -1,12 +1,9 @@
 <?php
 session_start();
-require_once '../database/classDAO.php';
-$conexao = new DAO();
+require_once(__DIR__."/api/ProdutoApi.php");
 $id = $_POST['id'];
 
-$sql = "DELETE FROM pdv_produtos WHERE id = :id";
-$params = [":id"=>$id];
-if ($conexao->executeSQL($sql, $params)) {
+if (ProdutoApi::deleteProduto($id)) {
     $_SESSION['resposta'] = 'Produto deletado com sucesso!';
     header("Location: ../listaDeProdutos.php");
 } else {

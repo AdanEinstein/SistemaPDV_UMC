@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once '../database/classDAO.php';
+require_once(__DIR__ . "/../controller/api/UsuarioApi.php");
+
 $user = $_POST['user'];
 $password = $_POST['password'];
 $confirmPassword = $_POST['confirmPassword'];
@@ -16,12 +17,8 @@ if (empty($user)) {
     $_SESSION['resposta'] = 'Senhas não correspondentes!';
     header("Location: ../cadastroUser.php");
 } else {
-    $sql = "SELECT * FROM pdv_usuarios WHERE login = '$user'";
-    $result = $conexao->select($sql, null, true);
-    if ($result->rowCount() == 0) {
-        $sql = "INSERT INTO pdv_usuarios VALUES (DEFAULT, :user, :password, :perfil)";
-        $params = [":user" => $user, ":password" => $password, ":perfil" => 'pendente'];
-        if ($conexao->executeSQL($sql, $params)) {
+    if (empty(UsuarioApi::getUserByLogin($user))) {
+        if (UsuarioApi::postUser($user, $password)) {
             $_SESSION['resposta'] = 'Usuário cadastrado com sucesso!';
             header("Location: ../index.php");
         } else {

@@ -1,10 +1,9 @@
 <?php
 session_start();
-require_once '../database/classDAO.php';
+require_once(__DIR__."/api/ProdutoApi.php");
 $descricao = $_POST['descricao'];
 $preco = $_POST['preco'];
 $quantidade = $_POST['quantidade'];
-$conexao = new DAO();
 
 if (empty($descricao)) {
     $_SESSION['resposta'] = 'Preencha o campo descrição!';
@@ -16,14 +15,8 @@ if (empty($descricao)) {
     $_SESSION['resposta'] = 'Quantidade inválida!';
     header("Location: ../cadastroProduto.php");
 } else {
-    $consultaSQL = "SELECT * FROM pdv_produtos WHERE descricao = '$descricao'";
-    $result = $conexao->select($consultaSQL, null, true);
-    if ($result->rowCount() == 0) {
-        $sql = "INSERT INTO pdv_produtos VALUES (DEFAULT, :descricao, :preco, :quantidade)";
-        $formatarQuantidade = str_replace(",", ".", $quantidade);
-        $formatarPreco = str_replace(",", ".", $preco);
-        $params = [":descricao" => $descricao, ":preco" => $formatarPreco, ":quantidade" => $formatarQuantidade];
-        if ($conexao->executeSQL($sql, $params)) {
+    if (empty(ProdutoApi::getProdutoByDecricao($descricao))) {
+        if (ProdutoApi::postProduto($descricao, $preco, $quantidade)) {
             $_SESSION['resposta'] = 'Produto cadastrado com sucesso!';
             header("Location: ../listaDeProdutos.php");
         } else {

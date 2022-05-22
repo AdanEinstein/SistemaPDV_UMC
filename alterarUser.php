@@ -1,14 +1,11 @@
 <?php
 include_once "includes/header.php";
+require_once(__DIR__."/controller/api/UsuarioApi.php");
 session_start();
-require_once 'database/classDAO.php';
 $dados = 0;
 if (isset($_GET['id'])){
     $id = $_GET['id'];
-    $sql = "SELECT * FROM pdv_usuarios WHERE id = :id";
-    $param = [":id" => $id];
-    $conexao = new DAO();
-    $dados = $conexao->select($sql, $param);
+    $user = UsuarioApi::getUserById($id);
 }
 ?>
 <?php if (isset($_SESSION["adm"])):
@@ -20,10 +17,10 @@ if (isset($_GET['id'])){
             <h2 class="text-center text-white mb-3 fw-bolder">Altere o perfil aqui!</h2>
             <form action="controller/actionalteraruser.php" method="post" class="w-75">
                 <div class="form-floating mb-3">
-                    <input type="hidden" class="form-control" id="id" value="<?php print($dados["id"])?>" name="id" readonly>
+                    <input type="hidden" class="form-control" id="id" value="<?php print($user->id)?>" name="id" readonly>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="descricao" value="<?php print($dados["login"])?>" name="login" readonly>
+                    <input type="text" class="form-control" id="descricao" value="<?php print($user->login)?>" name="login" readonly>
                     <label for="descricao">Login</label>
                 </div>
                 <div class="form-floating my-3">
