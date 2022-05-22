@@ -8,6 +8,11 @@ class DAO
     private $pass = "";
     private $db = "crudphp";
     private $driver = "mysql";
+//    private $host = "localhost";
+//    private $user = "id18903666_grupoumc";
+//    private $pass = "TfsMeWF5n2)+&zr";
+//    private $db = "id18903666_crudphp";
+//    private $driver = "mysql";
 
     private function conexao()
     {
